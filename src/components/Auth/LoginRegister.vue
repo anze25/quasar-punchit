@@ -3,18 +3,18 @@
     <div class="row q-mb-md">
       <q-banner class="bg-grey-3 col">
         <template v-slot:avatar>
-          <q-icon name="account_circle" color="primary" />
+          <q-icon
+            name="account_circle"
+            color="primary"
+          />
         </template>
-        {{ tab | titleCase }} to access your Todos anywhere!
+        <!-- {{ titleCase(tab) }} -->
       </q-banner>
     </div>
     <div class="row q-mb-md">
       <q-input
-        v-model="formData.email"
-        :rules="[ val => isValidEmailAddress(val) || 'Please enter a valid email address.']"
-        type="email"
+        v-model="userCredentials.email"
         ref="email"
-        lazy-rules
         class="col"
         label="Email"
         outlined
@@ -23,13 +23,24 @@
     </div>
     <div class="row q-mb-md">
       <q-input
-        v-model="formData.password"
-        :rules="[ val => val.length >= 6 || 'Please enter at least 6 characters.']"
+        v-model="userCredentials.password"
         ref="password"
-        lazy-rules
         type="password"
         class="col"
-        label="Password"
+        label="Geslo"
+        outlined
+        stack-label
+      />
+    </div>
+    <div class="row q-mb-md">
+      <q-input
+        v-if="tab === 'register'"
+        v-model="userCredentials.fullName"
+        placeholder=""
+        ref="name"
+        type="text"
+        class="col"
+        label="Ime in priimek"
         outlined
         stack-label
       />
@@ -37,50 +48,81 @@
     <div class="row">
       <q-space />
       <q-btn
+        :loggedIn='loggedIn'
         color="primary"
         :label="tab"
         type="submit"
+        @click="handleOk"
       />
     </div>
+    <div
+      v-if="errorMessage"
+      type="danger"
+    >{{ errorMessage }}</div>
   </form>
 </template>
 
-<script>
-import { mapActions } from 'vuex'
+<script setup>
+import { reactive, onMounted } from 'vue'
 
-export default {
-  props: ['tab'],
-  data() {
-    return {
-      formData: {
-        email: '',
-        password: ''
-      }
-    }
-  },
-  methods: {
-    ...mapActions('auth', ['registerUser', 'loginUser']),
-    isValidEmailAddress(email) {
-      const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return re.test(String(email).toLowerCase())
-    },
-    submitForm() {
-      this.$refs.email.validate()
-      this.$refs.password.validate()
-      if (!this.$refs.email.hasError && !this.$refs.password.hasError) {
-        if (this.tab === 'login') {
-          this.loginUser(this.formData)
-        }
-        else {
-          this.registerUser(this.formData)
-        }
-      }
-    }
-  },
-  filters: {
-    titleCase(value) {
-      return value.charAt(0).toUpperCase() + value.slice(1)
-    }
-  }
+import { useUserStore } from '../../stores/users.js';
+import { storeToRefs } from 'pinia';
+import { supabase } from "src/supabase";
+
+const userStore = useUserStore(); // From users.js
+const { errorMessage, loading, user } = storeToRefs(userStore);
+
+const getSession = async () => {
+  const account = await supabase.auth.getSession()
+  user.value = account.data.session.user
 }
+const props = defineProps(['tab', 'loggedIn']);
+
+const userCredentials = reactive({
+  email: '',
+  password: '',
+  fullName: ''
+
+});
+
+// Filter
+const titleCase = (value) => {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
+const handleOk = async (e) => {
+
+  if (props.loggedIn) {
+    await userStore.handleLogin({
+      password: userCredentials.password,
+      email: userCredentials.email
+    });
+    clearUserCredentialsInput();
+
+  } else {
+    await userStore.handleSignup(userCredentials);
+    clearUserCredentialsInput();
+  }
+
+}
+
+if (user.value) {
+  // visible.value = false;
+  clearUserCredentialsInput();
+
+}
+
+const clearUserCredentialsInput = () => {
+  userCredentials.email = '';
+  userCredentials.password = '';
+
+  userStore.clearErrorMessage();
+};
+
+onMounted(() => {
+
+});
+
+
 </script>
+
+<style></style>

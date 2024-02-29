@@ -1,7 +1,5 @@
 <template>
   <q-page class="flex flex-center">
-
-
     <input
       type="file"
       ref="myfile"
@@ -62,12 +60,15 @@ import { date, useQuasar } from "quasar";
 import { supabase } from "src/supabase";
 const $q = useQuasar();
 const punches = ref([])
+const user = ref()
 
 const csvJSON = async (event) => {
   const file = event.target.files.item(0)
   const csv = await file.text();
   const objLines = []
   const lines = csv.split('\n')
+  const account = await supabase.auth.getSession()
+  user.value = account.data.session.user
   for (var i = 0; i < lines.length; i++) {
     var obj = lines[i].split(',')
     if (obj[0].length === 19) { // cut of first and last item in csv file
@@ -88,7 +89,7 @@ const csvJSON = async (event) => {
         punchin: punchin,
         punchout: punchout,
         description: description,
-        user_id: "741e8b4a-d3eb-4218-b4bf-a07a0c99d00c",
+        user_id: user.value.id,
       });
       $q.notify({
         message: "Vnos uspešno ustvarjen",
