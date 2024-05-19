@@ -30,9 +30,13 @@ Ta Quasar Vue.js aplikacija omogoča uporabnikom sledenje delovnih ur in ustvarj
 ## Licenca
 Ta projekt je licenciran pod MIT licenco.
 
----
+## Live
+
+[Live Demo](https://qpunch.as-storitve.si/)
 
 **Opomba**: Prepričajte se, da zamenjate označevalce (npr. `username`, `password`) z dejanskimi vrednostmi, specifičnimi za vašo aplikacijo.
 
 ![qpunch](https://github.com/anze25/quasar-punchit/blob/master/Screenshot.png)
+
+
 
