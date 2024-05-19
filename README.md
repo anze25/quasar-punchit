@@ -1,46 +1,38 @@
-# Quasar Punchin (quasar-punhin)
 
-Simple Punch In App
+# Aplikacija za Beleženje Delovnih Ure in Poročila
+
+## Pregled
+Ta Quasar Vue.js aplikacija omogoča uporabnikom sledenje delovnih ur in ustvarjanje natisljivih poročil. Uporabniki lahko beležijo svoje delovne ure, si ogledajo povzetke in ustvarijo poročila v različnih oblikah.
+
+## Funkcionalnosti
+- **Beleženje Delovnih Ur**: Uporabniki lahko beležijo svoje delovne ure po datumu, projektu in nalogi.
+- **Ustvarjanje Poročil**:
+- **Avtentikacija Uporabnikov**: Varen prijavni postopek s pomočjo zagotovljenih poverilnic.
+- **Pogled v Živo**: Dostop do živega pogleda aplikacije na punchit.as-storitve.si.
+
+## Navodila za Začetek
+1. Klonirajte ta repozitorij na svoj računalnik.
+2. Namestite potrebne odvisnosti z ukazom `npm install`.
+3. Konfigurirajte aplikacijo z nastavitvijo okoljskih spremenljivk (npr. povezava do podatkovne baze, avtentikacija).
+4. Zaženite aplikacijo z ukazom `npm start`.
+
+## Uporaba
+1. Prijavite se s svojim uporabniškim imenom in geslom.
+2. Dodajte svoje delovne ure tako, da določite datum, projekt in trajanje.
+3. Generirajte poročila glede na izbrano časovno obdobje (dnevno, tedensko ali mesečno).
+4. Natisnite poročilo
+
+## Uporabljene Tehnologije
+- Supabase
+- Quasar Framework
+
+
+## Licenca
+Ta projekt je licenciran pod MIT licenco.
+
+---
+
+**Opomba**: Prepričajte se, da zamenjate označevalce (npr. `username`, `password`) z dejanskimi vrednostmi, specifičnimi za vašo aplikacijo.
 
 ![qpunch](https://github.com/anze25/quasar-punchit/blob/master/Screenshot.png)
 
-
-## Install the dependencies
-
-```bash
-yarn
-# or
-npm install
-```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-
-```bash
-quasar dev
-```
-
-### Lint the files
-
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-### Format the files
-
-```bash
-yarn format
-# or
-npm run format
-```
-
-### Build the app for production
-
-```bash
-quasar build
-```
-
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
