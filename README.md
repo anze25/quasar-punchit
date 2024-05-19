@@ -2,8 +2,8 @@
 
 Simple Punch In App
 
+![qpunch](https://github.com/anze25/quasar-punchit/blob/master/Screenshot.png)
 
-[qpunch](https://github.com/anze25/quasar-punchit/blob/master/Screenshot.png)
 
 ## Install the dependencies
 
